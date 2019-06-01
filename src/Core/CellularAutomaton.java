@@ -1,4 +1,4 @@
 package Core;
 
-abstract class CellularAutomaton implements Observable {
+public abstract class CellularAutomaton implements Observable {
 }
