@@ -17,7 +17,7 @@ public class Launcher extends JFrame {
     private JLabel typeLabel;
     private JLabel widthLabel;
     private JLabel heightLabel;
-    private ButtonGroup group;
+    private ButtonGroup typeGroup;
     private JRadioButton wwRadioButton;
     private JRadioButton golRadioButton;
     private JButton createButton;
@@ -50,22 +50,22 @@ public class Launcher extends JFrame {
         widthLabel = new JLabel("Szerokość:");
         heightLabel = new JLabel("Wysokość:");
 
-        group = new ButtonGroup();
+        typeGroup = new ButtonGroup();
 
         wwRadioButton = new JRadioButton("WireWorld", true);
         wwRadioButton.setActionCommand("WireWorld");
-        group.add(wwRadioButton);
+        typeGroup.add(wwRadioButton);
 
         golRadioButton = new JRadioButton("Game of Life", false);
         golRadioButton.setActionCommand("Game of Life");
-        group.add(golRadioButton);
+        typeGroup.add(golRadioButton);
 
         createButton = new JButton("Generuj pustą planszę");
         createButton.addActionListener(event -> {
-            String mode = group.getSelection().getActionCommand();
+            String mode = typeGroup.getSelection().getActionCommand();
             Simulator frame = new Simulator(mode, Integer.parseInt(widthTextField.getText()), Integer.parseInt(heightTextField.getText()));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setTitle(group.getSelection().getActionCommand());
+            frame.setTitle(typeGroup.getSelection().getActionCommand());
             frame.setVisible(true);
             dispose();
         });
