@@ -2,7 +2,7 @@ package GUI;
 
 import Core.CellularAutomaton;
 import Core.GameOfLife;
-import Core.InputOutput.Read;
+import Core.InputOutput.Reader;
 import Core.WireWorld;
 
 import javax.swing.*;
@@ -78,11 +78,12 @@ class Launcher extends JFrame {
         readButton.addActionListener(event -> {
             if ((file = chooseFile()) != null) {
                 try {
-                    CellularAutomaton mode = Read.getMode(file);
-                    mode.readFile(mode, file);
-                    Simulator frame = new Simulator(mode);
+                    Reader reader = new Reader();
+                    CellularAutomaton cellularAutomaton = new WireWorld();
+                    reader.readFile(cellularAutomaton, file);
+                    Simulator frame = new Simulator(cellularAutomaton);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setTitle(mode.getClass().getSimpleName());
+                    frame.setTitle(cellularAutomaton.getClass().getSimpleName());
                     frame.setVisible(true);
                     dispose();
                 } catch (IOException e) {

@@ -1,4 +1,6 @@
 package Core.WwCells;
 
-public class Head {
+import Core.Cell;
+
+public class Head extends Cell {
 }

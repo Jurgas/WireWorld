@@ -1,10 +1,16 @@
 package Core;
 
+import Core.WwCells.Empty;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class Grid {
     private Cell[][] grid;
+
+    public Grid() {
+        this.grid = new Cell[5][5];
+    }
 
     public void createEmptyGrid(int width, int height) {
         this.grid = new Cell[width][height];
@@ -22,7 +28,7 @@ public class Grid {
         return this.grid[0].length;
     }
 
-    public void setCellAtIndex(Cell state, int x, int y) {
+    public void setCellAtIndex(int x, int y, Cell state) {
         this.grid[x][y] = state;
     }
 
@@ -32,5 +38,11 @@ public class Grid {
                 cell = cell.nextState();
             });
         });
+    }
+
+    public Cell getCell(int x, int y) {
+
+        //TODO unmock
+        return new Empty();
     }
 }

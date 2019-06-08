@@ -46,7 +46,7 @@ public class Board extends JComponent {
         public void mousePressed(MouseEvent event) {
             int[] t = find(event.getPoint());
             Cell penClass = s.getPenClass();
-            s.getMode().getG().setCell(t[0], t[1], penClass);
+            s.getMode().getG().setCellAtIndex(t[0], t[1], penClass);
             s.reFreshBoard();
         }
 
@@ -56,7 +56,7 @@ public class Board extends JComponent {
         public void mouseDragged(MouseEvent event) {
             int[] t = find(event.getPoint());
             Cell penClass = s.getPenClass();
-            s.getMode().getG().setCell(t[0], t[1], penClass);
+            s.getMode().getG().setCellAtIndex(t[0], t[1], penClass);
             s.reFreshBoard();
         }
     }

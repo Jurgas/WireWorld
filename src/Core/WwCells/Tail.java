@@ -1,4 +1,6 @@
 package Core.WwCells;
 
-public class Tail {
+import Core.Cell;
+
+public class Tail extends Cell {
 }

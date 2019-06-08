@@ -1,11 +1,9 @@
 package GUI;
 
 import Core.Cell;
-import InputOutput.Write;
+import Core.InputOutput.Writer;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -66,9 +64,9 @@ abstract class Sidebar extends JPanel {
 
         saveButton = new JButton("Zapisz");
         saveButton.addActionListener(e -> {
-            Write w = new Write();
-            File file = chooseWriteFile();
-            w.WriteToFile(s.getMode(), file)
+            Writer w = new Writer();
+//            File file = chooseWriteFile();
+//            w.WriteToFile(s.getMode(), file);
         });
 
         cellDimSlider = new JSlider(5, 40, 20);

@@ -1,4 +1,4 @@
 package Core.InputOutput;
 
-public class Read {
+public class Writer {
 }

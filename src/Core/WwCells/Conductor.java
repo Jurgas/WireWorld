@@ -1,4 +1,7 @@
 package Core.WwCells;
 
-public class Conductor {
+import Core.Cell;
+
+public class Conductor extends Cell {
+
 }

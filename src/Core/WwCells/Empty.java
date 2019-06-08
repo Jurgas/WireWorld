@@ -1,4 +1,6 @@
 package Core.WwCells;
 
-public class Empty {
+import Core.Cell;
+
+public class Empty extends Cell {
 }
