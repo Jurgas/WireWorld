@@ -1,22 +1,36 @@
 package Core;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Grid {
     private Cell[][] grid;
 
+    public void createEmptyGrid(int width, int height) {
+        this.grid = new Cell[width][height];
+    }
 
-    public Grid(){
-        grid = new Cell[50][50];
+    public Cell getCellAtIndex(int x, int y) {
+        return this.grid[x][y];
     }
 
     public int getWidth() {
-        return grid.length;
+        return this.grid.length;
     }
 
     public int getHeight() {
-        return grid[0].length;
+        return this.grid[0].length;
     }
 
-    public Cell getCell(int w, int h) {
-        return grid[w][h];
+    public void setCellAtIndex(Cell state, int x, int y) {
+        this.grid[x][y] = state;
+    }
+
+    public void createNewGen() {
+        Arrays.stream(this.grid).forEach(row -> {
+            Arrays.stream(row).forEach(cell -> {
+                cell = cell.nextState();
+            });
+        });
     }
 }
