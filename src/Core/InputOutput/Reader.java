@@ -47,7 +47,7 @@ public class Reader {
     }
 
 
-    public CellularAutomaton readFile(CellularAutomaton ca, File file) throws IOException {
+    public void readFile(CellularAutomaton ca, File file) throws IOException {
 
         int currentRow = 0;
         try (Scanner scanner = new Scanner(file)) {
@@ -59,6 +59,7 @@ public class Reader {
             int yDimension = scanner.nextInt();
             dim[0] = xDimension;
             dim[1] = yDimension;
+            ca.createEmptyGrid(dim[0], dim[1], ca);
             while (scanner.hasNext() && currentRow < dim[1]) {
             String data = scanner.next();
             List<Integer> cells = stringToIntegerArray(data);
@@ -66,29 +67,29 @@ public class Reader {
                     if (ca instanceof WireWorld) {
                         switch (cells.get(i)) {
                             case 0: {
-                                ca.setCellAtIndex(currentRow, i, new Empty());
+                                ca.setCellAtIndex(i, currentRow, new Empty());
                                 break;
                             }
                             case 1: {
-                                ca.setCellAtIndex(currentRow, i, new Head());
+                                ca.setCellAtIndex(i, currentRow, new Head());
                                 break;
                             }
                             case 2: {
-                                ca.setCellAtIndex(currentRow, i, new Tail());
+                                ca.setCellAtIndex(i, currentRow, new Tail());
                                 break;
                             }
                             case 3: {
-                                ca.setCellAtIndex(currentRow, i, new Conductor());
+                                ca.setCellAtIndex(i, currentRow, new Conductor());
                                 break;
                             }
                         }
                     } else if (ca instanceof GameOfLife) {
                         switch (Character.getNumericValue(data.charAt(i))) {
                             case 0: {
-                                ca.setCellAtIndex(currentRow, i, new Dead());
+                                ca.setCellAtIndex(i, currentRow, new Dead());
                             }
                             case 1: {
-                                ca.setCellAtIndex(currentRow, i, new Alive());
+                                ca.setCellAtIndex(i, currentRow, new Alive());
                             }
                         }
                     }
@@ -98,8 +99,6 @@ public class Reader {
 
         } catch (FileNotFoundException ignored) {
         }
-
-        return ca;
     }
 
     private List<Integer> stringToIntegerArray(String string) {
