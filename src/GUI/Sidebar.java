@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 abstract class Sidebar extends JPanel {
     private JTextField genTextField;
@@ -20,6 +21,8 @@ abstract class Sidebar extends JPanel {
     private JButton genStopButton;
     private JButton saveButton;
     private JSlider cellDimSlider;
+    private Thread t;
+    private File file;
 
     Sidebar(GridBagLayout layout, Simulator s) {
 
@@ -51,6 +54,17 @@ abstract class Sidebar extends JPanel {
             genPlayButton.setEnabled(false);
             genStopButton.setEnabled(true);
             saveButton.setEnabled(false);
+            Runnable r = () -> {
+                try {
+                    for (int i = 0; i < Integer.parseInt(genTextField.getText()); i++)
+                        s.getMode().createNewGen();
+                    s.reFreshBoard();
+                    Thread.sleep(Integer.parseInt(delayLabel.getText()));
+                } catch (InterruptedException ignored) {
+                }
+            };
+            t = new Thread(t);
+            t.start();
         });
 
         genStopButton = new JButton("Stop");
@@ -59,13 +73,15 @@ abstract class Sidebar extends JPanel {
             genPlayButton.setEnabled(true);
             genStopButton.setEnabled(false);
             saveButton.setEnabled(true);
+            t.interrupt();
         });
 
         saveButton = new JButton("Zapisz");
         saveButton.addActionListener(e -> {
-            Writer w = new Writer();
-//            File file = chooseWriteFile();
-//            w.WriteToFile(s.getMode(), file);
+            if ((file = chooseWriteFile()) != null) {
+                Writer w = new Writer();
+                w.WriteToFile(s.getMode(), file);
+            }
         });
 
         cellDimSlider = new JSlider(5, 40, 20);
@@ -89,6 +105,17 @@ abstract class Sidebar extends JPanel {
 
     }
 
+    private File chooseWriteFile() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("./cellgrids"));
+        chooser.setDialogTitle("Zapisz obecną generację");
+        int result = chooser.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION)
+            return chooser.getSelectedFile();
+        return null;
+
+
+    }
 
     public abstract Cell getPen();
 }
