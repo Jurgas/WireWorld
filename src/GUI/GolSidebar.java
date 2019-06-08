@@ -1,5 +1,9 @@
 package GUI;
 
+import Core.Cell;
+import Core.GolCells.Alive;
+import Core.GolCells.Dead;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,18 +15,18 @@ public class GolSidebar extends Sidebar {
     private JLabel blueprintLabel;
     private JComboBox<String> blueprintsComboox;
 
-    public GolSidebar(GridBagLayout layout) {
-        super(layout);
+    GolSidebar(GridBagLayout layout, Simulator s) {
+        super(layout, s);
         setLayout(layout);
 
         groupCell = new ButtonGroup();
 
         deadCell = new JRadioButton("Martwa", true);
-        deadCell.setActionCommand("Martwa");
+        deadCell.setActionCommand("Dead");
         groupCell.add(deadCell);
 
         aliveCell = new JRadioButton("Żywa", false);
-        aliveCell.setActionCommand("Żywa");
+        aliveCell.setActionCommand("Alive");
         groupCell.add(aliveCell);
 
         blueprintLabel = new JLabel("Wklej:");
@@ -39,7 +43,10 @@ public class GolSidebar extends Sidebar {
         add(blueprintsComboox, new GBC(1, 10, 2, 1).setAnchor(GBC.WEST).setInsets(10, 0, 230, 0));
     }
 
-    public String getPen() {
-        return groupCell.getSelection().getActionCommand();
+    public Cell getPen() {
+        if (groupCell.getSelection().getActionCommand().equals("Alive"))
+            return new Alive();
+        else
+            return new Dead();
     }
 }

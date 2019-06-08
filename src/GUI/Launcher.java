@@ -1,5 +1,10 @@
 package GUI;
 
+import Core.CellularAutomaton;
+import Core.GameOfLife;
+import Core.InputOutput.Read;
+import Core.WireWorld;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -10,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Launcher extends JFrame {
+class Launcher extends JFrame {
     private JTextField widthTextField;
     private JTextField heightTextField;
     private JLabel sizeLabel;
@@ -24,7 +29,7 @@ public class Launcher extends JFrame {
     private JButton readButton;
     private File file;
 
-    public Launcher() {
+    Launcher() {
 
         KeyAdapter adapter = new KeyAdapter() {
             @Override
@@ -62,8 +67,7 @@ public class Launcher extends JFrame {
 
         createButton = new JButton("Generuj pustą planszę");
         createButton.addActionListener(event -> {
-            String mode = typeGroup.getSelection().getActionCommand();
-            Simulator frame = new Simulator(mode, Integer.parseInt(widthTextField.getText()), Integer.parseInt(heightTextField.getText()));
+            Simulator frame = new Simulator(makeCA(widthTextField.getText(), heightTextField.getText()));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setTitle(typeGroup.getSelection().getActionCommand());
             frame.setVisible(true);
@@ -74,10 +78,11 @@ public class Launcher extends JFrame {
         readButton.addActionListener(event -> {
             if ((file = chooseFile()) != null) {
                 try {
-                    String mode = getMode(file);
-                    Simulator frame = new Simulator(mode, file);
+                    CellularAutomaton mode = Read.getMode(file);
+                    mode.readFile(mode, file);
+                    Simulator frame = new Simulator(mode);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setTitle(mode);
+                    frame.setTitle(mode.getClass().getSimpleName());
                     frame.setVisible(true);
                     dispose();
                 } catch (IOException e) {
@@ -112,18 +117,29 @@ public class Launcher extends JFrame {
         return null;
     }
 
-    private String getMode(File f) throws IOException {
+    private CellularAutomaton getMode(File f) throws IOException {
         String mode;
         Scanner s = new Scanner(f);
         if (!s.hasNext())
             throw new IOException("Plik jest pusty!");
         mode = s.next();
         if (mode.equalsIgnoreCase("ww"))
-            return "WireWorld";
+            return new WireWorld();
         else if (mode.equalsIgnoreCase("gol"))
-            return "Game of Life";
+            return new GameOfLife();
         else
             throw new IOException("Podano błędną nazwę automatu!");
 
+    }
+
+    private CellularAutomaton makeCA(String x,String y) {
+        CellularAutomaton ca;
+        String mode = typeGroup.getSelection().getActionCommand();
+        if (mode.equalsIgnoreCase("WireWorld"))
+            ca = new WireWorld();
+        else
+            ca = new GameOfLife();
+        ca.getG().createEmptyGrid(Integer.parseInt(x),Integer.parseInt(y));
+        return ca;
     }
 }

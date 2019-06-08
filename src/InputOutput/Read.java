@@ -34,12 +34,11 @@ public class Read {
             for (int i = 0; i < dim.length; i++) {
                 if (isNumeric(temp)) {
                     dim[i] = sc.nextInt();
-                }
-                else
+                } else
                     throw new IOException("Błędnie podano wymiary siatki!");
             }
             while (sc.hasNext() && isNumeric(temp = sc.next())) {
-                for(int i = 0; i < temp.length(); i++){
+                for (int i = 0; i < temp.length(); i++) {
 
                 }
             }

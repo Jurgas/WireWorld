@@ -1,9 +1,15 @@
 package GUI;
 
+import Core.Cell;
+import InputOutput.Write;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 abstract class Sidebar extends JPanel {
     private JTextField genTextField;
@@ -18,7 +24,7 @@ abstract class Sidebar extends JPanel {
     private JButton saveButton;
     private JSlider cellDimSlider;
 
-    public Sidebar (GridBagLayout layout){
+    Sidebar(GridBagLayout layout, Simulator s) {
 
         KeyAdapter adapter = new KeyAdapter() {
             @Override
@@ -31,8 +37,8 @@ abstract class Sidebar extends JPanel {
 
         setLayout(layout);
 
-        genTextField = new JTextField("5",5);
-        delayTextField = new JTextField("10",5);
+        genTextField = new JTextField("5", 5);
+        delayTextField = new JTextField("10", 5);
 
         genTextField.addKeyListener(adapter);
         delayTextField.addKeyListener(adapter);
@@ -44,34 +50,48 @@ abstract class Sidebar extends JPanel {
         cellDimLabel = new JLabel("Wielkość komórki");
 
         genPlayButton = new JButton("Generuj!");
-//        genPlayButton.addActionListener();
+        genPlayButton.addActionListener(e -> {
+            genPlayButton.setEnabled(false);
+            genStopButton.setEnabled(true);
+            saveButton.setEnabled(false);
+        });
 
         genStopButton = new JButton("Stop");
         genStopButton.setEnabled(false);
-//        genStopButton.addActionListener();
-
-        saveButton = new JButton("Zapisz");
-//        saveButton.addActionListener();
-
-        cellDimSlider = new JSlider(8,40,20);
-        cellDimSlider.addChangeListener(event ->{
-            JSlider source = (JSlider) event.getSource();
-            Simulator.cellDim = source.getValue();
-            Simulator.board.repaint();
+        genStopButton.addActionListener(e -> {
+            genPlayButton.setEnabled(true);
+            genStopButton.setEnabled(false);
+            saveButton.setEnabled(true);
         });
 
-        add(genLabel, new GBC(0,0,2,1).setInsets(15,10,10,0));
-        add(genTextField, new GBC(2,0).setInsets(15,10,10,0));
-        add(delayLabel, new GBC(0,1,2,1).setInsets(15,10,10,0));
-        add(delayTextField, new GBC(2,1).setInsets(15,10,10,0));
-        add(delayMsLabel, new GBC(3,1).setInsets(15,0,10,0).setAnchor(GBC.WEST));
-        add(genPlayButton, new GBC(0,2,2,1).setInsets(15,10,10,0));
-        add(genStopButton, new GBC(2,2,2,1).setInsets(15,10,10,0));
-        add(genNumLabel, new GBC(0,3,4,1).setInsets(5,10,10,0));
-        add(cellDimLabel,new GBC(0,4,4,1).setInsets(15,10,5,0));
-        add(cellDimSlider,new GBC(0,5,4,1).setInsets(0,10,5,0));
-        add(saveButton, new GBC(0,12,4,1).setInsets(0,0,30,0));
+        saveButton = new JButton("Zapisz");
+        saveButton.addActionListener(e -> {
+            Write w = new Write();
+            File file = chooseWriteFile();
+            w.WriteToFile(s.getMode(), file)
+        });
+
+        cellDimSlider = new JSlider(5, 40, 20);
+        cellDimSlider.addChangeListener(event -> {
+            JSlider source = (JSlider) event.getSource();
+            s.setCellDim(source.getValue());
+            s.reFreshBoard();
+        });
+
+        add(genLabel, new GBC(0, 0, 2, 1).setInsets(15, 10, 10, 0));
+        add(genTextField, new GBC(2, 0).setInsets(15, 10, 10, 0));
+        add(delayLabel, new GBC(0, 1, 2, 1).setInsets(15, 10, 10, 0));
+        add(delayTextField, new GBC(2, 1).setInsets(15, 10, 10, 0));
+        add(delayMsLabel, new GBC(3, 1).setInsets(15, 0, 10, 0).setAnchor(GBC.WEST));
+        add(genPlayButton, new GBC(0, 2, 2, 1).setInsets(15, 10, 10, 0));
+        add(genStopButton, new GBC(2, 2, 2, 1).setInsets(15, 10, 10, 0));
+        add(genNumLabel, new GBC(0, 3, 4, 1).setInsets(5, 10, 10, 0));
+        add(cellDimLabel, new GBC(0, 4, 4, 1).setInsets(15, 10, 5, 0));
+        add(cellDimSlider, new GBC(0, 5, 4, 1).setInsets(0, 10, 5, 0));
+        add(saveButton, new GBC(0, 12, 4, 1).setInsets(0, 0, 30, 0));
 
     }
-    public abstract String getPen();
+
+
+    public abstract Cell getPen();
 }
