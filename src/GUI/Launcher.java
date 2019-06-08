@@ -13,7 +13,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 class Launcher extends JFrame {
     private JTextField widthTextField;
@@ -78,12 +77,12 @@ class Launcher extends JFrame {
         readButton.addActionListener(event -> {
             if ((file = chooseFile()) != null) {
                 try {
-                    Reader reader = new Reader();
-                    CellularAutomaton cellularAutomaton = new WireWorld();
-                    reader.readFile(cellularAutomaton, file);
-                    Simulator frame = new Simulator(cellularAutomaton);
+                    Reader r = new Reader();
+                    CellularAutomaton mode  = r.getMode(file);
+                    r.readFile(mode, file);
+                    Simulator frame = new Simulator(mode);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setTitle(cellularAutomaton.getClass().getSimpleName());
+                    frame.setTitle(mode.getClass().getSimpleName());
                     frame.setVisible(true);
                     dispose();
                 } catch (IOException e) {
@@ -116,21 +115,6 @@ class Launcher extends JFrame {
         if (result == JFileChooser.APPROVE_OPTION)
             return chooser.getSelectedFile();
         return null;
-    }
-
-    private CellularAutomaton getMode(File f) throws IOException {
-        String mode;
-        Scanner s = new Scanner(f);
-        if (!s.hasNext())
-            throw new IOException("Plik jest pusty!");
-        mode = s.next();
-        if (mode.equalsIgnoreCase("ww"))
-            return new WireWorld();
-        else if (mode.equalsIgnoreCase("gol"))
-            return new GameOfLife();
-        else
-            throw new IOException("Podano błędną nazwę automatu!");
-
     }
 
     private CellularAutomaton makeCA(String x,String y) {

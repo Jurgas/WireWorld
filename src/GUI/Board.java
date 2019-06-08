@@ -27,7 +27,7 @@ public class Board extends JComponent {
             for (int j = 0; j < s.getMode().getG().getWidth(); j++) {
                 Rectangle2D rect = new Rectangle2D.Double(j * s.getCellDim(),
                         i * s.getCellDim(), s.getCellDim() - 1, s.getCellDim() - 1);
-                Cell c = s.getMode().getG().getCell(j, i);
+                Cell c = s.getMode().getG().getCellAtIndex(j, i);
                 g2.setPaint(Color.GRAY);
                 g2.draw(rect);
                 g2.setPaint(new ColorScheme().getColor(c));
