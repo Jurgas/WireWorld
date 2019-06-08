@@ -29,7 +29,9 @@ public class Grid {
     }
 
     public void setCellAtIndex(int x, int y, Cell state) {
-        this.grid[x][y] = state;
+        try {
+            this.grid[x][y] = state;
+        } catch (ArrayIndexOutOfBoundsException ignored){}
     }
 
     public int countCells(int x, int y) {
