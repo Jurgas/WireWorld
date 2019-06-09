@@ -49,4 +49,9 @@ public class GolSidebar extends Sidebar {
         else
             return new Dead();
     }
+
+    @Override
+    public String getComboBox() {
+        return blueprintsComboox.getItemAt(blueprintsComboox.getSelectedIndex());
+    }
 }

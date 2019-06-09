@@ -45,8 +45,8 @@ public class WwSidebar extends Sidebar {
 
         blueprintsComboox = new JComboBox<>();
         blueprintsComboox.addItem("");
+        blueprintsComboox.addItem("Diode");
         blueprintsComboox.addItem("OR");
-        blueprintsComboox.addItem("AND");
 
 
         add(emptyCell, new GBC(0, 6, 3, 1).setAnchor(GBC.WEST).setInsets(30, 30, 0, 0));
@@ -58,13 +58,20 @@ public class WwSidebar extends Sidebar {
     }
 
     public Cell getPen() {
-        if (groupCell.getSelection().getActionCommand().equals("Empty"))
-            return new Empty();
-        else if (groupCell.getSelection().getActionCommand().equals("Head"))
-            return new Head();
-        else if (groupCell.getSelection().getActionCommand().equals("Tail"))
-            return new Tail();
-        else
-            return new Conductor();
+        switch (groupCell.getSelection().getActionCommand()) {
+            case "Empty":
+                return new Empty();
+            case "Head":
+                return new Head();
+            case "Tail":
+                return new Tail();
+            default:
+                return new Conductor();
+        }
+    }
+
+    @Override
+    public String getComboBox() {
+        return blueprintsComboox.getItemAt(blueprintsComboox.getSelectedIndex());
     }
 }

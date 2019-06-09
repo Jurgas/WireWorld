@@ -45,21 +45,27 @@ public class Board extends JComponent {
     private class MouseHandler extends MouseAdapter {
         public void mousePressed(MouseEvent event) {
             int[] t = find(event.getPoint());
-            Cell penClass = s.getPenClass();
-            s.getMode().setCellAtIndex(t[0], t[1], penClass);
+            if (s.getComboBox().equals("")) {
+                Cell penClass = s.getPenClass();
+                s.getMode().setCellAtIndex(t[0], t[1], penClass);
+            } else {
+                s.getMode().drawBlueprint(t[0], t[1], s.getMode(), s.getComboBox());
+            }
             s.reFreshBoard();
         }
-
     }
 
     private class MouseMotionHandler extends MouseMotionAdapter {
         public void mouseDragged(MouseEvent event) {
             int[] t = find(event.getPoint());
-            Cell penClass = s.getPenClass();
-            s.getMode().setCellAtIndex(t[0], t[1], penClass);
+            if (s.getComboBox().equals("")) {
+                Cell penClass = s.getPenClass();
+                s.getMode().setCellAtIndex(t[0], t[1], penClass);
+            }
             s.reFreshBoard();
         }
     }
+
 
     void reFreshBoard() {
         repaint();
