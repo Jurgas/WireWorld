@@ -28,4 +28,8 @@ public abstract class CellularAutomaton implements Observable {
     public void setCellAtIndex(int x, int y, Cell state){
         g.setCellAtIndex(x, y, state);
     }
+
+    public void createNewGen(){
+        g.createNewGen();
+    }
 }

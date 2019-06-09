@@ -30,7 +30,7 @@ public class Reader {
         }
     }
 
-    public String getMode(File file) throws IOException {
+    public CellularAutomaton getMode(File file) throws IOException {
         try (Scanner sc = new Scanner(file)) {
             if (!sc.hasNext()) {
                 throw new IOException("Plik jest pusty!");
@@ -38,9 +38,9 @@ public class Reader {
             String temp = sc.next();
             sc.close();
             if (temp.equalsIgnoreCase("ww"))
-                return "WireWorld";
+                return new WireWorld();
             else if (temp.equalsIgnoreCase("gol"))
-                return "Game of Life";
+                return new GameOfLife();
             else
                 throw new IOException("Podano błędną nazwę automatu!");
         }
