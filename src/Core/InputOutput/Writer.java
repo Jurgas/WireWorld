@@ -43,5 +43,6 @@ public class Writer {
                 }
             }
         }
+        writer.close();
     }
 }
