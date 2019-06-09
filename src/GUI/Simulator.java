@@ -19,7 +19,7 @@ class Simulator extends JFrame {
     private Sidebar side;
     private Board board;
     private boolean drawBlueprint;
-    static JScrollPane boardScrollPane;
+    private JScrollPane boardScrollPane;
 
     Simulator(CellularAutomaton mode) {
         this.mode = mode;
@@ -61,6 +61,10 @@ class Simulator extends JFrame {
 
     void reFreshBoard() {
         board.reFreshBoard();
+    }
+
+    String getComboBox(){
+        return side.getComboBox();
     }
 
 }

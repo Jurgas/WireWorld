@@ -52,18 +52,19 @@ abstract class Sidebar extends JPanel {
 
         genPlayButton = new JButton("Generuj!");
         genPlayButton.addActionListener(e -> {
-            genPlayButton.setEnabled(false);
-            genStopButton.setEnabled(true);
-            saveButton.setEnabled(false);
-            genTextField.setEnabled(false);
-            delayTextField.setEnabled(false);
+            buttonsOff();
             Runnable run = () -> {
                 try {
-                    for (int i = 0; i < Integer.parseInt(genTextField.getText()); i++){
+                    for (int i = 0; i < Integer.parseInt(genTextField.getText()); i++) {
                         s.getMode().createNewGen();
-                    s.reFreshBoard();
-                    Thread.sleep(Integer.parseInt(delayTextField.getText()));}
+                        s.reFreshBoard();
+                        String genText = "Generacja #: " + (i + 1);
+                        genNumLabel.setText(genText);
+                        Thread.sleep(Integer.parseInt(delayTextField.getText()));
+                    }
                 } catch (InterruptedException ignored) {
+                } finally {
+                    buttonsOn();
                 }
             };
             t = new Thread(run);
@@ -72,14 +73,7 @@ abstract class Sidebar extends JPanel {
 
         genStopButton = new JButton("Stop");
         genStopButton.setEnabled(false);
-        genStopButton.addActionListener(e -> {
-            genPlayButton.setEnabled(true);
-            genStopButton.setEnabled(false);
-            saveButton.setEnabled(true);
-            genTextField.setEnabled(true);
-            delayTextField.setEnabled(true);
-            t.interrupt();
-        });
+        genStopButton.addActionListener(e -> t.interrupt());
 
         saveButton = new JButton("Zapisz");
         saveButton.addActionListener(e -> {
@@ -119,12 +113,36 @@ abstract class Sidebar extends JPanel {
         chooser.setCurrentDirectory(new File("./cellgrids"));
         chooser.setDialogTitle("Zapisz obecną generację");
         int result = chooser.showSaveDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION)
-            return chooser.getSelectedFile();
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            String filePath = file.getPath();
+            if (!filePath.toLowerCase().endsWith(".txt")) {
+                return new File(filePath + ".txt");
+            }
+            return file;
+        }
         return null;
 
 
     }
 
+    private void buttonsOff() {
+        genPlayButton.setEnabled(false);
+        genStopButton.setEnabled(true);
+        saveButton.setEnabled(false);
+        genTextField.setEnabled(false);
+        delayTextField.setEnabled(false);
+    }
+
+    private void buttonsOn() {
+        genPlayButton.setEnabled(true);
+        genStopButton.setEnabled(false);
+        saveButton.setEnabled(true);
+        genTextField.setEnabled(true);
+        delayTextField.setEnabled(true);
+    }
+
     public abstract Cell getPen();
+
+    public abstract String getComboBox();
 }
