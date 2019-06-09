@@ -1,4 +1,4 @@
-package Testy;
+package Tests;
 
 import Core.CellularAutomaton;
 import Core.InputOutput.Reader;
@@ -13,7 +13,7 @@ import java.io.IOException;
 public class readFileTest {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void readFileTest() throws IOException {
         boolean success = false;
         CellularAutomaton readData = new WireWorld();
         Reader reader = new Reader();

@@ -1,4 +1,4 @@
-package Testy;
+package Tests;
 
 import Core.CellularAutomaton;
 import Core.GameOfLife;
@@ -6,7 +6,7 @@ import Core.GolCells.Alive;
 import Core.GolCells.Dead;
 
 public class drawBlueprintTest {
-    public static void main(String[] args) {
+    public static void drawBlueprintTest() {
         boolean success = false;
         CellularAutomaton cellularAutomaton = new GameOfLife();
         cellularAutomaton.createEmptyGrid(4, 4, cellularAutomaton);
