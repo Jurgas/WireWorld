@@ -66,11 +66,15 @@ class Launcher extends JFrame {
 
         createButton = new JButton("Generuj pustą planszę");
         createButton.addActionListener(event -> {
+            try {
             Simulator frame = new Simulator(makeCA(widthTextField.getText(), heightTextField.getText()));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setTitle(typeGroup.getSelection().getActionCommand());
             frame.setVisible(true);
-            dispose();
+            dispose();}
+            catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         readButton = new JButton("Wczytaj z pliku");
@@ -78,7 +82,7 @@ class Launcher extends JFrame {
             if ((file = chooseFile()) != null) {
                 try {
                     Reader r = new Reader();
-                    CellularAutomaton mode  = r.getMode(file);
+                    CellularAutomaton mode = r.getMode(file);
                     r.readFile(mode, file);
                     Simulator frame = new Simulator(mode);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,14 +121,17 @@ class Launcher extends JFrame {
         return null;
     }
 
-    private CellularAutomaton makeCA(String x,String y) {
+    private CellularAutomaton makeCA(String x, String y) throws NumberFormatException {
         CellularAutomaton ca;
         String mode = typeGroup.getSelection().getActionCommand();
         if (mode.equalsIgnoreCase("WireWorld"))
             ca = new WireWorld();
         else
             ca = new GameOfLife();
-        ca.createEmptyGrid(Integer.parseInt(x),Integer.parseInt(y), ca);
+        if (Integer.parseInt(x) <= 0 || Integer.parseInt(y) <= 0 || Integer.parseInt(x) > 300 || Integer.parseInt(x) > 300)
+            throw new NumberFormatException("Podano złe wymiary! Wymiary powinny mieć od 0 do 300.");
+        else
+            ca.createEmptyGrid(Integer.parseInt(x), Integer.parseInt(y), ca);
         return ca;
     }
 }
