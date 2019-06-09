@@ -124,7 +124,7 @@ class Launcher extends JFrame {
             ca = new WireWorld();
         else
             ca = new GameOfLife();
-        ca.getG().createEmptyGrid(Integer.parseInt(x),Integer.parseInt(y));
+        ca.createEmptyGrid(Integer.parseInt(x),Integer.parseInt(y), ca);
         return ca;
     }
 }

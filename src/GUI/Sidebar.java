@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 abstract class Sidebar extends JPanel {
     private JTextField genTextField;
@@ -37,8 +38,8 @@ abstract class Sidebar extends JPanel {
 
         setLayout(layout);
 
-        genTextField = new JTextField("5", 5);
-        delayTextField = new JTextField("10", 5);
+        genTextField = new JTextField("50", 5);
+        delayTextField = new JTextField("1000", 5);
 
         genTextField.addKeyListener(adapter);
         delayTextField.addKeyListener(adapter);
@@ -54,16 +55,18 @@ abstract class Sidebar extends JPanel {
             genPlayButton.setEnabled(false);
             genStopButton.setEnabled(true);
             saveButton.setEnabled(false);
-            Runnable r = () -> {
+            genTextField.setEnabled(false);
+            delayTextField.setEnabled(false);
+            Runnable run = () -> {
                 try {
-                    for (int i = 0; i < Integer.parseInt(genTextField.getText()); i++)
+                    for (int i = 0; i < Integer.parseInt(genTextField.getText()); i++){
                         s.getMode().createNewGen();
                     s.reFreshBoard();
-                    Thread.sleep(Integer.parseInt(delayLabel.getText()));
+                    Thread.sleep(Integer.parseInt(delayTextField.getText()));}
                 } catch (InterruptedException ignored) {
                 }
             };
-            t = new Thread(t);
+            t = new Thread(run);
             t.start();
         });
 
@@ -73,18 +76,24 @@ abstract class Sidebar extends JPanel {
             genPlayButton.setEnabled(true);
             genStopButton.setEnabled(false);
             saveButton.setEnabled(true);
+            genTextField.setEnabled(true);
+            delayTextField.setEnabled(true);
             t.interrupt();
         });
 
         saveButton = new JButton("Zapisz");
         saveButton.addActionListener(e -> {
-            if ((file = chooseWriteFile()) != null) {
-                Writer w = new Writer();
-                w.WriteToFile(s.getMode(), file);
+            try {
+                if ((file = chooseWriteFile()) != null) {
+                    Writer w = new Writer();
+                    w.writeToFile(s.getMode(), file);
+                }
+            } catch (FileNotFoundException ignored) {
             }
+
         });
 
-        cellDimSlider = new JSlider(5, 40, 20);
+        cellDimSlider = new JSlider(3, 40, 20);
         cellDimSlider.addChangeListener(event -> {
             JSlider source = (JSlider) event.getSource();
             s.setCellDim(source.getValue());

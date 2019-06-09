@@ -23,11 +23,11 @@ public class Board extends JComponent {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        for (int i = 0; i < s.getMode().getG().getHeight(); i++)
-            for (int j = 0; j < s.getMode().getG().getWidth(); j++) {
+        for (int i = 0; i < s.getMode().getHeight(); i++)
+            for (int j = 0; j < s.getMode().getWidth(); j++) {
                 Rectangle2D rect = new Rectangle2D.Double(j * s.getCellDim(),
                         i * s.getCellDim(), s.getCellDim() - 1, s.getCellDim() - 1);
-                Cell c = s.getMode().getG().getCellAtIndex(j, i);
+                Cell c = s.getMode().getCellAtIndex(j, i);
                 g2.setPaint(Color.GRAY);
                 g2.draw(rect);
                 g2.setPaint(new ColorScheme().getColor(c));
@@ -46,7 +46,7 @@ public class Board extends JComponent {
         public void mousePressed(MouseEvent event) {
             int[] t = find(event.getPoint());
             Cell penClass = s.getPenClass();
-            s.getMode().getG().setCellAtIndex(t[0], t[1], penClass);
+            s.getMode().setCellAtIndex(t[0], t[1], penClass);
             s.reFreshBoard();
         }
 
@@ -56,7 +56,7 @@ public class Board extends JComponent {
         public void mouseDragged(MouseEvent event) {
             int[] t = find(event.getPoint());
             Cell penClass = s.getPenClass();
-            s.getMode().getG().setCellAtIndex(t[0], t[1], penClass);
+            s.getMode().setCellAtIndex(t[0], t[1], penClass);
             s.reFreshBoard();
         }
     }
@@ -67,7 +67,7 @@ public class Board extends JComponent {
     }
 
     public Dimension getPreferredSize() {
-        return new Dimension(s.getMode().getG().getWidth() * s.getCellDim(), s.getMode().getG().getHeight() * s.getCellDim());
+        return new Dimension(s.getMode().getWidth() * s.getCellDim(), s.getMode().getHeight() * s.getCellDim());
     }
 
 }
