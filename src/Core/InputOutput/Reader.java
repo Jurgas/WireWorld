@@ -61,8 +61,8 @@ public class Reader {
             dim[1] = yDimension;
             ca.createEmptyGrid(dim[0], dim[1], ca);
             while (scanner.hasNext() && currentRow < dim[1]) {
-            String data = scanner.next();
-            List<Integer> cells = stringToIntegerArray(data);
+                String data = scanner.next();
+                List<Integer> cells = stringToIntegerArray(data);
                 for (int i = 0; i < cells.size(); i++) {
                     if (ca instanceof WireWorld) {
                         switch (cells.get(i)) {
@@ -84,12 +84,14 @@ public class Reader {
                             }
                         }
                     } else if (ca instanceof GameOfLife) {
-                        switch (Character.getNumericValue(data.charAt(i))) {
+                        switch (cells.get(i)) {
                             case 0: {
                                 ca.setCellAtIndex(i, currentRow, new Dead());
+                                break;
                             }
                             case 1: {
                                 ca.setCellAtIndex(i, currentRow, new Alive());
+                                break;
                             }
                         }
                     }
