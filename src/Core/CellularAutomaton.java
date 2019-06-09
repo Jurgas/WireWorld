@@ -5,7 +5,7 @@ import Core.GolBlueprints.Glider;
 import Core.WwBlueprints.Diode;
 import Core.WwBlueprints.OR;
 
-public abstract class CellularAutomaton implements Observable {
+public abstract class CellularAutomaton {
     private Grid g;
     public CellularAutomaton() {
         g = new Grid();

@@ -3,28 +3,22 @@ package Core;
 
 import Core.GolCells.Alive;
 import Core.GolCells.Dead;
-import Core.WwCells.Conductor;
 import Core.WwCells.Empty;
 import Core.WwCells.Head;
-
-import java.util.Arrays;
 
 public class Grid {
     private Cell[][] grid;
 
-    public Grid() {
-    }
 
-
-    public Cell getCellAtIndex(int x, int y) {
+    Cell getCellAtIndex(int x, int y) {
         return this.grid[x][y];
     }
 
-    public int getWidth() {
+    int getWidth() {
         return this.grid.length;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return this.grid[0].length;
     }
 
@@ -80,7 +74,7 @@ public class Grid {
 
     }
 
-    public void createNewGen() {
+    void createNewGen() {
         Cell[][] temp = new Cell[getWidth()][getHeight()];
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {

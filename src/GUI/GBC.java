@@ -21,30 +21,9 @@ class GBC extends GridBagConstraints {
         return this;
     }
 
-    GBC setFill(int fill) {
-        this.fill = fill;
-        return this;
-    }
-
-    GBC setWeight(double weightx, double weighty) {
-        this.weightx = weightx;
-        this.weighty = weighty;
-        return this;
-    }
-
-    GBC setInsets(int distance) {
-        this.insets = new Insets(distance, distance, distance, distance);
-        return this;
-    }
-
     GBC setInsets(int top, int left, int bottom, int right) {
         this.insets = new Insets(top, left, bottom, right);
         return this;
     }
 
-    GBC setIpad(int ipadx, int ipady) {
-        this.ipadx = ipadx;
-        this.ipady = ipady;
-        return this;
-    }
 }

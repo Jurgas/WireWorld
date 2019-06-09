@@ -10,14 +10,14 @@ import Core.WwCells.Tail;
 import java.io.File;
 import java.io.IOException;
 
-public class readFileTest {
+class readFileTest {
 
 
-    public static void readFileTest() throws IOException {
+    static void readFileTest() throws IOException {
         boolean success = false;
         CellularAutomaton readData = new WireWorld();
         Reader reader = new Reader();
-        File data = new File("/Users/piotrowczarczyk/IdeaProjects/WireWorld2/cellgrids/data.txt");
+        File data = new File("./cellgrids/data.txt");
         reader.readFile(readData, data);
 
         if(readData.getCellAtIndex(0, 0) instanceof Empty &&

@@ -18,8 +18,6 @@ class Simulator extends JFrame {
     private int cellDim = 20;
     private Sidebar side;
     private Board board;
-    private boolean drawBlueprint;
-    private JScrollPane boardScrollPane;
 
     Simulator(CellularAutomaton mode) {
         this.mode = mode;
@@ -37,7 +35,7 @@ class Simulator extends JFrame {
             System.exit(-1);
         }
         board = new Board(s);
-        boardScrollPane = new JScrollPane(board);
+        JScrollPane boardScrollPane = new JScrollPane(board);
         add(boardScrollPane, BorderLayout.CENTER);
         pack();
         setLocationRelativeTo(null);

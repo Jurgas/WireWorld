@@ -14,21 +14,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Reader {
     private int[] dim = new int[2];
-
-    private boolean isNumeric(String s) {
-        try {
-            Double.parseDouble(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 
     public CellularAutomaton getMode(File file) throws IOException {
         try (Scanner sc = new Scanner(file)) {
