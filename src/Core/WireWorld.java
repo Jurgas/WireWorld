@@ -1,7 +1,7 @@
 package Core;
 
 public class WireWorld extends CellularAutomaton {
-    public WireWorld(){
+    public WireWorld() {
         super();
     }
 }
