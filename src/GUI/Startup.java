@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class Sturtup {
+public class Startup {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
